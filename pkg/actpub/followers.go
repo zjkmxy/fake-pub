@@ -36,6 +36,9 @@ func FollowHandler(w http.ResponseWriter, r *http.Request) {
 		TotalItems:   0,
 		OrderedItems: []string{},
 	}
+	for _, context := range PersonContext {
+		collectionData.AtContext = append(collectionData.AtContext, context)
+	}
 
 	data, err := json.Marshal(collectionData)
 	if err != nil {

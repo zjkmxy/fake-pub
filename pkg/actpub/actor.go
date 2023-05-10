@@ -75,6 +75,9 @@ func ActorHandler(w http.ResponseWriter, r *http.Request) {
 		Followers: fmt.Sprintf("%s/followers/%s", config.UrlPrefix, acctName),
 		Following: fmt.Sprintf("%s/following/%s", config.UrlPrefix, acctName),
 	}
+	for _, context := range PersonContext {
+		actorData.AtContext = append(actorData.AtContext, context)
+	}
 
 	data, err := json.Marshal(actorData)
 	if err != nil {
@@ -82,5 +85,7 @@ func ActorHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	log.Print("Responded with: ", string(data))
+
 	w.Write(data)
 }
