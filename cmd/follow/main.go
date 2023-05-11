@@ -17,8 +17,9 @@ func main() {
 	}
 
 	r := actpub.MakeFollowReq(os.Args[1], os.Args[2], os.Args[3])
-	r.Write(os.Stdout)
-	fmt.Println()
+	// NO dumping! This restricts the protocol to HTTP/1.1 and failed on cloudflare.
+	// r.Write(os.Stdout)
+	// fmt.Println()
 
 	client := http.Client{Timeout: time.Duration(10) * time.Second}
 	resp, err := client.Do(r)

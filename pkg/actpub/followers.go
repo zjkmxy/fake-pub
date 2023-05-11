@@ -18,7 +18,7 @@ type AsOrderedCollection struct {
 }
 
 func FollowHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print("Follower/ee request received: ", r.Method, " ", r.URL.String(), " ", r.Header)
+	// log.Print("Follower/ee request received: ", r.Method, " ", r.URL.String(), " ", r.Header)
 
 	urlPaths := strings.Split(r.URL.Path, "/")
 	if len(urlPaths) < 2 {

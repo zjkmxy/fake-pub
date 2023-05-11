@@ -6,9 +6,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-fed/httpsig"
+	"github.com/zjkmxy/fake-pub/pkg/config"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -51,6 +53,7 @@ func MakeFollowReq(inboxUrl string, actorId string, objectId string) *http.Reque
 	act := FollowActivity{
 		AsObject: AsObject{
 			Type: "Follow",
+			Id:   config.UrlPrefix + "/a6d7d528-78af-4322-9cd7-04a20a27ab33",
 		},
 		Actor:  actorId,
 		Object: objectId,
@@ -71,11 +74,18 @@ func MakeFollowReq(inboxUrl string, actorId string, objectId string) *http.Reque
 	r.Header.Set("Content-Type", "application/activity+json")
 	r.Header.Set("Date", time.Now().UTC().Format("Mon, 02 Jan 2006 15:04:05")+" GMT")
 	r.Header.Set("Host", r.Host)
+	r.Header.Set("Accept", "application/activity+json")
+	r.Header.Set("User-Agent", "Fake-ActivityPub/unknown")
 
 	err = signer.SignRequest(privkey, keyUrl, r, wire)
 	if err != nil {
 		log.Fatal("Failed to sign the Post request: ", err)
 	}
+
+	// Replace hs2019 with rsa-sha256 for Misskey Mei 11 compatibility
+	sigField := r.Header.Get("Signature")
+	sigField = strings.Replace(sigField, "algorithm=\"hs2019\"", "algorithm=\"rsa-sha256\"", 1)
+	r.Header.Set("Signature", sigField)
 
 	return r
 }
