@@ -53,8 +53,6 @@ func ActorHandler(w http.ResponseWriter, r *http.Request) {
 			Type:    "Person",
 			Id:      acctUrl,
 			Tag:     []any{},
-			Image:   "",
-			Icon:    "",
 			Summary: "This is a FAKE account.",
 			Name:    acctName,
 			URL:     fmt.Sprintf("%s/profile-page/%s", config.UrlPrefix, acctName),

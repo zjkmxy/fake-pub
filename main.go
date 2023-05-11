@@ -17,9 +17,13 @@ func FallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/.well-known/webfinger", actpub.WebfingerHandler)
+	http.HandleFunc("/.well-known/nodeinfo", actpub.WellknownNodeinfoHandler)
+	http.HandleFunc("/nodeinfo/2.0", actpub.NodeinfoHandler)
 	http.HandleFunc("/actor/", actpub.ActorHandler)
+	http.HandleFunc("/site-actor", actpub.SiteActorHandler)
 	http.HandleFunc("/followers/", actpub.FollowHandler)
 	http.HandleFunc("/following/", actpub.FollowHandler)
+	http.HandleFunc("/inbox/", actpub.InboxHandler)
 	http.HandleFunc("/", FallbackHandler)
 
 	log.Fatal(http.ListenAndServe(":31000", nil))
