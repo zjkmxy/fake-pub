@@ -19,7 +19,7 @@ type AsPublicKey struct {
 }
 
 func SiteActorHandler(w http.ResponseWriter, r *http.Request) {
-	log.Print("Site-Actor request received: ", r.Method, " ", r.URL.String(), " ", r.Header)
+	// log.Print("Site-Actor request received: ", r.Method, " ", r.URL.String(), " ", r.Header)
 
 	urlPaths := strings.Split(r.URL.Path, "/")
 	if len(urlPaths) < 1 {
@@ -63,7 +63,7 @@ func SiteActorHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Print("Responded with: ", string(data))
+	// log.Print("Responded with: ", string(data))
 
 	w.Write(data)
 }
